@@ -1,0 +1,31 @@
+.recent-match-list-item{
+    list-style-type: none;
+    background-color: #141324;
+    padding: 5px;
+    margin: 10px;
+    height:250px;
+    width:200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.recent-match-competing-team-logo{
+    height:80px;
+    width:80px;
+}
+
+.competing-team-name-heading{
+    color:white;
+    font-size: 20px;;
+}
+
+.win-match-status{
+    color:green;
+    font-size: 15px;
+}
+
+.lost-match-status{
+    color:red;
+    font-size: 15px;
+}
