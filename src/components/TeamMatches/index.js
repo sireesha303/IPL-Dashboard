@@ -1,10 +1,13 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react';
+import {ThreeDots} from 'react-loader-spinner'
 
 import LatestMatch from '../LatestMatch'
 import MatchCard from '../MatchCard'
 
 import './index.css'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+
 
 const TeamMatches = () => {
 
@@ -13,6 +16,8 @@ const TeamMatches = () => {
         latestMatchDetails:{},
         recentMatches:[],
     })
+
+    const [isLoading,setLoadingStatus] = useState(true)
 
     const {id} = useParams();
 
@@ -23,7 +28,7 @@ const TeamMatches = () => {
             const data = await response.json()
             //console.log(data)
             // console.log(data.team_banner_url)
-            
+            setLoadingStatus(false)
 
             const updatedTeamBannerUrl = data.team_banner_url
             // console.log(updatedTeamBannerUrl)
@@ -60,6 +65,7 @@ const TeamMatches = () => {
                 latestMatchDetails:updatedLatestMatchDetails,
                 recentMatches:updatedRecentMatches
             })
+           
 
             // console.log(teamdetails.recentMatches)
         }
@@ -68,16 +74,19 @@ const TeamMatches = () => {
 
     return(
         <div className='team-matches-bg-container'>
-            <div className='team-matches-details-container'>
-                <img src={teamdetails.teamBannerUrl} alt={`Team Banner URL -${id}`} className='team-banner-img'/>
-                <p className='matches-heading'>Latest Matches</p>
-                <LatestMatch  latestMatch={teamdetails.latestMatchDetails}/>
-                <ul className='recent-matches-list'>
-                    {teamdetails.recentMatches.map(eachMatch =>
-                        <MatchCard matchDetails={eachMatch}/>
-                    )}
-                </ul>
-            </div>
+            {isLoading?( 
+                <ThreeDots type="TailSpin" color="#00BFFF" height={100} width={50} />
+            ):(<div className='team-matches-details-container'>
+            <img src={teamdetails.teamBannerUrl} alt={`Team Banner URL -${id}`} className='team-banner-img'/>
+            <p className='matches-heading'>Latest Matches</p>
+            <LatestMatch  latestMatch={teamdetails.latestMatchDetails}/>
+            <ul className='recent-matches-list'>
+                {teamdetails.recentMatches.map(eachMatch =>
+                    <MatchCard matchDetails={eachMatch}/>
+                )}
+            </ul>
+        </div>)}
+            
             
         </div>
         

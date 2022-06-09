@@ -1,5 +1,8 @@
 import {Component} from 'react'
+import {ThreeDots} from 'react-loader-spinner'
+
 import './index.css'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 import IPLTeamCard from '../IPLTeamCard'
 
@@ -33,7 +36,10 @@ import IPLTeamCard from '../IPLTeamCard'
 
 
 class Home extends Component{
-    state = {iplTeamList:[]}
+    state = {
+        iplTeamList:[],
+        isLoading:true
+    }
     
     componentDidMount(){
         this.getIPLTeamslist()
@@ -48,12 +54,12 @@ class Home extends Component{
             name:eachTeam.name,
             teamImageUrl:eachTeam.team_image_url
         }))
-        this.setState({iplTeamList:updatedData})
+        this.setState({iplTeamList:updatedData,isLoading:false})
     }
 
 
     render(){
-        const {iplTeamList} = this.state
+        const {iplTeamList,isLoading} = this.state
 
         return(
             <div className='app-bg-container'>
@@ -63,9 +69,13 @@ class Home extends Component{
                         <h1 className='main-heading'>IPL DashBoard</h1>
                     </div>
                     <ul className='team-card-container'>
-                        {iplTeamList.map(eachTeam =>(
-                        <IPLTeamCard teamDetails={eachTeam} key={eachTeam.id}/>
-                        ))}  
+                        {isLoading?( 
+                        <ThreeDots type="TailSpin" color="#00BFFF" height={50} width={50} />
+                        ):(
+                            iplTeamList.map(eachTeam =>(
+                        <IPLTeamCard teamDetails={eachTeam} key={eachTeam.id}/>)
+                        ))}
+                  
                     </ul>
                 </div>
             </div>
